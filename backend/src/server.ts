@@ -1,5 +1,6 @@
 import 'dotenv/config';
 
+import { giveConsentSchema } from './schema/giveConsent';
 import express, { Request, Response } from 'express';
 import generateUniqueToken from './helper/generateUniqueToken';
 
@@ -18,9 +19,14 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api/give_consent', (req, res) => {
-    const username: string = req.body.username;
-    const unique_token: string = generateUniqueToken(username);
-    res.status(201).send(unique_token);
+    try {
+        const parsedBody = giveConsentSchema.parse(req.body);
+        const unique_token: string = generateUniqueToken(parsedBody.username);
+        // This token must be used with ALL APIs so that we know where to store the information for that specific person in the database (JSON file for our hackathon)
+        res.status(201).send(unique_token);
+    } catch (error: any) {
+        res.status(400).send(error.message);
+    }
 })
 
 // PUT updates existing data on server ENTIRELY
