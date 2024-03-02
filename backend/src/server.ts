@@ -29,6 +29,10 @@ app.post('/api/give_consent', (req, res) => {
     }
 })
 
+app.post('/api/send_transcript', (req, res) => {
+    
+})
+
 // PUT updates existing data on server ENTIRELY
 app.put('/api/items/:id', (req, res) => {
   // Logic to update an item ENTIRELY
