@@ -3,6 +3,7 @@ import { StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { Text, TextInput, Checkbox, Button } from 'react-native-paper';
 import { View } from '@/components/Themed';
 import { giveConsent } from '@/api/giveConsent';
+import { Link } from 'expo-router';
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
