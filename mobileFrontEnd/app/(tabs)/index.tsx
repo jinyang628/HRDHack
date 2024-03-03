@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
-import { TextInput, Checkbox, Button } from 'react-native-paper';
+import { Text, TextInput, Checkbox, Button } from 'react-native-paper';
 import { View } from '@/components/Themed';
+import { giveConsent } from '@/api/giveConsent';
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
@@ -17,6 +18,15 @@ export default function LoginScreen() {
     setConsentGiven(!isConsentGiven);
   };
 
+  const handleLogin = async (username: string) => {
+    try {
+      const uniqueToken: string = await giveConsent(username);
+    } catch (error: any) {
+      console.error(error);
+    }
+  }
+
+
   // Define the condition for the submit button to be enabled
   const isSubmitEnabled = username !== '' && isConsentGiven;
 
@@ -26,6 +36,10 @@ export default function LoginScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <View style={styles.innerContainer}>
+        <Text variant="displayLarge" style={styles.title}>
+          Title
+        </Text>
+
         <TextInput
           label="Username"
           value={username}
@@ -34,17 +48,21 @@ export default function LoginScreen() {
           style={styles.input}
         />
 
+
+
         <View style={styles.checkboxContainer}>
           <Checkbox
             status={isConsentGiven ? 'checked' : 'unchecked'}
             onPress={toggleConsent}
           />
-          <TextInput label="I give my consent for data collection." />
+          <Text style={styles.checkboxLabel}> {/* Fix the style reference */}
+            I give my consent for data collection.
+          </Text>
         </View>
 
         <Button
           mode="contained"
-          onPress={() => console.log('Submitted')}
+          onPress={() => handleLogin(username)}
           disabled={!isSubmitEnabled}
           style={styles.button}
         >
@@ -77,4 +95,10 @@ const styles = StyleSheet.create({
   button: {
     width: '50%',
   },
+  checkboxLabel: {
+    marginLeft: 8, 
+  },
+  title: {
+    marginBottom: 50,
+  }
 });
