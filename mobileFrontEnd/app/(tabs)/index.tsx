@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
-import { Text, TextInput, Checkbox, Button } from 'react-native-paper';
+import { Text, TextInput, Checkbox, Button, Snackbar } from 'react-native-paper';
 import { View } from '@/components/Themed';
 import { giveConsent } from '@/api/giveConsent';
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('');
   const [isConsentGiven, setConsentGiven] = useState(false);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [uniqueToken, setUniqueToken] = useState(''); 
 
   // Update the username state
   const handleUsernameChange = (username: string) => {
@@ -21,6 +23,10 @@ export default function LoginScreen() {
   const handleLogin = async (username: string) => {
     try {
       const uniqueToken: string = await giveConsent(username);
+      setUniqueToken(uniqueToken);
+      if (uniqueToken) {
+        setSnackbarVisible(true); // Show success message
+      }
     } catch (error: any) {
       console.error(error);
     }
@@ -37,7 +43,7 @@ export default function LoginScreen() {
     >
       <View style={styles.innerContainer}>
         <Text variant="displayLarge" style={styles.title}>
-          Title
+          Miló Circles
         </Text>
 
         <TextInput
@@ -58,6 +64,15 @@ export default function LoginScreen() {
           <Text style={styles.checkboxLabel}> {/* Fix the style reference */}
             I give my consent for data collection.
           </Text>
+
+          <Snackbar
+            visible={snackbarVisible}
+            onDismiss={() => setSnackbarVisible(false)}
+            duration={3000} // How long it stays visible
+            style={styles.snackbar} // Add custom style here
+          >
+            Success! You have logged in as ${uniqueToken}.
+          </Snackbar>
         </View>
 
         <Button
@@ -100,5 +115,9 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 50,
-  }
+  },
+  snackbar: {
+    backgroundColor: '#00C853',
+    color: '#FFFFFF', 
+  },
 });
