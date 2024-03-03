@@ -8,7 +8,7 @@ export default function LoginScreen() {
   const [isConsentGiven, setConsentGiven] = useState(false);
 
   // Update the username state
-  const handleUsernameChange = (username: string) => {
+  const handleUsernameChange = (username) => {
     setUsername(username);
   };
 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   input: {
-    width: '50%',
+    width: '100%',
     marginBottom: 20,
   },
   checkboxContainer: {
@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    width: '50%',
+    width: '100%',
   },
 });
