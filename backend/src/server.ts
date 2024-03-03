@@ -104,5 +104,5 @@ app.delete('/api/items/:id', (req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:3000`);
 });
