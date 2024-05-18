@@ -1,5 +1,7 @@
 # HRDHack
 
+Reimagining the solutions to speech impediment
+
 ## Start backend server
 
 `cd backend`
